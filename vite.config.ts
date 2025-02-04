@@ -18,9 +18,6 @@ const getGitHash = () => {
   }
 };
 
-
-
-
 export default defineConfig((config) => {
   return {
     define: {

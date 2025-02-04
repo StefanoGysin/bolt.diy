@@ -41,13 +41,12 @@ export class WorkbenchStore {
 
   #reloadedMessages = new Set<string>();
 
-  artifacts: Artifacts = import.meta.hot?.data.artifacts ?? map({});
+  artifacts: Artifacts = (import.meta.hot?.data as any)?.artifacts ?? map({});
 
-  showWorkbench: WritableAtom<boolean> = import.meta.hot?.data.showWorkbench ?? atom(false);
-  currentView: WritableAtom<WorkbenchViewType> = import.meta.hot?.data.currentView ?? atom('code');
-  unsavedFiles: WritableAtom<Set<string>> = import.meta.hot?.data.unsavedFiles ?? atom(new Set<string>());
-  actionAlert: WritableAtom<ActionAlert | undefined> =
-    import.meta.hot?.data.unsavedFiles ?? atom<ActionAlert | undefined>(undefined);
+  showWorkbench: WritableAtom<boolean> = (import.meta.hot?.data as any)?.showWorkbench ?? atom(false);
+  currentView: WritableAtom<WorkbenchViewType> = (import.meta.hot?.data as any)?.currentView ?? atom('code');
+  unsavedFiles: WritableAtom<Set<string>> = (import.meta.hot?.data as any)?.unsavedFiles ?? atom(new Set<string>());
+  actionAlert: WritableAtom<ActionAlert | undefined> = (import.meta.hot?.data as any)?.actionAlert ?? atom(undefined);
   modifiedFiles = new Set<string>();
   artifactIdList: string[] = [];
   #globalExecutionQueue = Promise.resolve();
@@ -404,8 +403,8 @@ export class WorkbenchStore {
   }
 
   async syncFiles(targetHandle: FileSystemDirectoryHandle) {
+    const syncedFiles: string[] = [];
     const files = this.files.get();
-    const syncedFiles = [];
 
     for (const [filePath, dirent] of Object.entries(files)) {
       if (dirent?.type === 'file' && !dirent.isBinary) {

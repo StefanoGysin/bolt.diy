@@ -69,7 +69,7 @@ export const FileTree = memo(
     }, [fileList, collapsed]);
 
     const filteredFileList = useMemo(() => {
-      const list = [];
+      const list: Node[] = [];
 
       let lastDepth = Number.MAX_SAFE_INTEGER;
 
